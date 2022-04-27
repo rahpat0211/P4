@@ -23,7 +23,7 @@ def test_create_database():
 import os
 
 root = os.path.dirname(os.path.abspath(__file__))
-csvdir = os.path.join(root, '../app/uploads')
+csvdir = os.path.join(root, '../app/uploads/music.csv')
 
 def test_request_songs(client):
     response = client.get("/songs")

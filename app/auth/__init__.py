@@ -68,6 +68,7 @@ def logout():
 
 
 
+
 @auth.route('/dashboard')
 @login_required
 def dashboard():
@@ -83,6 +84,7 @@ def edit_profile():
         db.session.add(current_user)
         db.session.commit()
         flash('You Successfully Updated your Profile', 'success')
+        current_app.logger.info(user.email + " has made edited profile")
         return redirect(url_for('auth.dashboard'))
     return render_template('profile_edit.html', form=form)
 
@@ -99,7 +101,7 @@ def edit_account():
         flash('You Successfully Updated your Password or Email', 'success')
         current_app.logger.info("Current user updated")
         return redirect(url_for('auth.dashboard'))
-        current_app.logger.info("Curremt user access")
+        current_app.logger.info("Current user access")
     return render_template('manage_account.html', form=form)
 
 
