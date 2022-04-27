@@ -18,3 +18,20 @@ def test_create_database():
     dbdir = os.path.join(root, '../database')
     # make a directory if it doesn't exist
     assert os.path.exists(dbdir) == True
+
+#Test for CSV File
+import os
+
+root = os.path.dirname(os.path.abspath(__file__))
+csvdir = os.path.join(root, '../app/uploads')
+
+def test_request_songs(client):
+    response = client.get("/songs")
+    assert response.status_code == 200
+    assert b"Browse: Songs" in response.data
+
+def test_songs_upload(application):
+    """Check to see if CSV file is uploaded and processed"""
+    assert os.path.exists(csvdir) is True
+    filepath = os.path.join(root, '../app/uploads/music.csv')
+    assert os.path.exists(filepath) is True
