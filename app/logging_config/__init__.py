@@ -61,6 +61,13 @@ LOGGING_CONFIG = {
             'maxBytes': 10000000,
             'backupCount': 5,
         },
+        'file.handler.songupload': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'standard',
+            'filename': os.path.join(config.Config.LOG_DIR,'song_upload.log'),
+            'maxBytes': 10000000,
+            'backupCount': 5,
+        },
         'file.handler.myapp': {
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'standard',
