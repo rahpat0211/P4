@@ -4,6 +4,7 @@ from logging.config import dictConfig
 
 import flask
 from flask import request, current_app
+from sqlalchemy.sql.functions import user
 
 from app.logging_config.log_formatters import RequestFormatter
 from app.logging_config.log_formatters import HandlerFormatter
@@ -14,7 +15,8 @@ log_con = flask.Blueprint('log_con', __name__)
 
 
 # @log_con.before_app_request
-# def before_request_logging():
+def before_request_logging():
+    current_app.logger.info(user.email)
 
 def CSV_file_upload():
     log=logging.getLogger("myCSVuploads")
@@ -131,10 +133,10 @@ LOGGING_CONFIG = {
             'maxBytes': 10000000,
             'backupCount': 5,
         },
-        'file.handler.CSV_Uploads': {
+        'file.handler.CSVUploads': {
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'CSVFormatter',
-            'filename': os.path.join(config.Config.LOG_DIR, 'CSV_Uploads.log'),
+            'filename': os.path.join(config.Config.LOG_DIR, 'CSVUploads.log'),
             'maxBytes': 10000000,
             'backupCount': 5,
         },
@@ -181,7 +183,7 @@ LOGGING_CONFIG = {
             'propagate': False
         },
         'myCSVuploads': {  # if __name__ == '__main__'
-            'handlers': ['file.handler.CSV_Uploads'],
+            'handlers': ['file.handler.CSVUploads'],
             'level': 'INFO',
             'propagate': False
         },
