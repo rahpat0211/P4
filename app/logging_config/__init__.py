@@ -43,19 +43,8 @@ LOGGING_CONFIG = {
     'disable_existing_loggers': False,
     'formatters': {
         'standard': {
-        'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
-    },
-
-    'RequestFormatter': {
-        '()': 'app.logging_config.log_formatters.RequestFormatter',
-        'format': '[%(asctime)s] [%(process)d] %(remote_addr)s requested %(url)s'
-                  '%(levelname)s in %(module)s: %(message)s'
-    },
-
-    'HandlerFormatter': {
-        '()': 'app.logging_config.log_formatters.HandlerFormatter',
-        'format': '[%(asctime)s] [%(levelname)s] %(message)s from %(remote_addr)s'
-    },
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+        },
 
     },
     'handlers': {
