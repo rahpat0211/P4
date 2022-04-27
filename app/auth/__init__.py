@@ -26,9 +26,11 @@ def register():
                 db.session.add(user)
                 db.session.commit()
             flash('Congratulations, you are now a registered user!', "success")
+            current_app.logger.info(user.email + " is now registered")
             return redirect(url_for('auth.login'), 302)
         else:
             flash('Already Registered')
+            current_app.logger.warning(user.email + " is already registered")
             return redirect(url_for('auth.login'), 302)
     return render_template('register.html', form=form)
 
@@ -40,6 +42,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is None or not user.check_password(form.password.data):
+            current_app.logger.warning(user.email + " has wrong creds")
             flash('Invalid username or password')
             return redirect(url_for('auth.login'))
         else:
@@ -47,6 +50,7 @@ def login():
             db.session.add(user)
             db.session.commit()
             login_user(user)
+            current_app.logger.info(user.email + " successfuly logged in")
             flash("Welcome", 'success')
             return redirect(url_for('auth.dashboard'))
     return render_template('login.html', form=form)
@@ -93,7 +97,9 @@ def edit_account():
         db.session.add(current_user)
         db.session.commit()
         flash('You Successfully Updated your Password or Email', 'success')
+        current_app.logger.info("Current user updated")
         return redirect(url_for('auth.dashboard'))
+        current_app.logger.info("Curremt user access")
     return render_template('manage_account.html', form=form)
 
 
@@ -121,7 +127,9 @@ def browse_users():
 @login_required
 def retrieve_user(user_id):
     user = User.query.get(user_id)
+
     return render_template('profile_view.html', user=user)
+
 
 
 @auth.route('/users/<int:user_id>/edit', methods=['POST', 'GET'])
@@ -169,8 +177,3 @@ def delete_user(user_id):
     db.session.commit()
     flash('User Deleted', 'success')
     return redirect(url_for('auth.browse_users'), 302)
-
-
-
-
-
